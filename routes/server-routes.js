@@ -15,6 +15,12 @@ module.exports = function (app) {
   app.get("/api/workouts/range", function (req, res) {
     db.Workout.find({})
       .then(function (dbWorkout) {
+        const number = dbWorkout.length / 7;
+        if (number > 1) {
+          for (let i = 0; i < Math.floor(number); i++) {
+            deleteRange(dbWorkout);
+          }
+        }
         res.send(dbWorkout);
       })
       .catch(function (err) {
@@ -58,3 +64,11 @@ module.exports = function (app) {
 
   // delete routes
 };
+
+// outer functions
+function deleteRange(arr) {
+  for (let i = 0; i < 7; i++) {
+    arr.splice(0, 1);
+  }
+  return arr;
+}
